@@ -16,6 +16,6 @@ def plot_png():
     output = io.BytesIO()
 
     output.seek(0)
-    plt.savefig(output, format='png')
+    plt.savefig(output, format='svg')
     plt.close()
-    return Response(output.getvalue(), mimetype='image/png')
+    return Response(output.getvalue(), mimetype='image/svg+xml')
