@@ -4,6 +4,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from collections import Counter
+import pickle
 
 SCOPE = ['https://spreadsheets.google.com/feeds',
                   'https://www.googleapis.com/auth/drive']
@@ -16,7 +17,16 @@ def plot_make():
     gc = gspread.authorize(credentials)
     
     # Pull Google Sheet and convert to Pandas DataFrame
-    responses = gc.open(SPREADSHEET).sheet1.get_all_records()
+    try:
+        responses = gc.open(SPREADSHEET).sheet1.get_all_records()
+        pickle_save = open('sheet_save.pickle','wb')
+        pickle.dump(responses, pickle_save)
+        pickle_save.close()
+        
+    except:
+        pickle_save = open('sheet_save.pickle','rb')
+        response = pickle.load(pickle_save)
+        pickle_save.close()
     
     # Get dept responses
     depts = [ elem[u'Department or program (4-letter code preferred)'] for elem in responses ]
