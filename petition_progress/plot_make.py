@@ -29,7 +29,7 @@ def plot_make():
     cutoff = 10
     dept_totals_high = [ (dept,val) for val,dept in dept_totals if val > cutoff ]
     
-    plot = plt.bar( range( len( dept_totals_high ) ), [val for dept,val in dept_totals_high], align='center', color=(1.,170./255.,60./255.))
+    plot = plt.bar( range( len( dept_totals_high ) ), [val for dept,val in dept_totals_high], align='center', color=(1.,170./255.,60./255.), edgecolor=None)
     plt.ylabel('Signatures')
     plt.xticks( range( len( dept_totals_high) ), [dept for dept,val in dept_totals_high] )
 
