@@ -1,0 +1,30 @@
+runtime: python27
+env: standard
+api_version: 1
+threadsafe: true
+
+handlers:
+  - url: /.*
+    script: flask_plot.app
+
+env_variables:
+  FLASK_APP: "flask_plot"
+
+libraries:
+  - name: werkzeug
+    version: latest
+
+  - name: webob
+    version: latest
+
+  - name: ssl
+    version: latest
+
+  - name: matplotlib
+    version: latest
+
+  - name: flask
+    version: latest
+    
+  - name: numpy
+    version: latest
