@@ -28,9 +28,44 @@ def plot_make():
     dept_totals = sorted([ (val, dept) for dept,val in dept_totals.items() ], reverse=True )
     cutoff = 10
     dept_totals_high = [ (dept,val) for val,dept in dept_totals if val > cutoff ]
-    
-    plot = plt.bar( range( len( dept_totals_high ) ), [val for dept,val in dept_totals_high], align='center', color=(1.,170./255.,60./255.), edgecolor=None)
-    plt.ylabel('Signatures')
-    plt.xticks( range( len( dept_totals_high) ), [dept for dept,val in dept_totals_high] )
 
+
+    plot = plt.figure()
+    ax = plot.add_subplot(1,1,1)
+    ax.bar( range( len( dept_totals_high ) ),
+              [val for dept,val in dept_totals_high],
+              align='center',
+              color=(1.,170./255.,60./255.),
+              edgecolor=(1.,170./255.,60./255.)
+    )
+
+    ax.set_ylabel('Signatures')
+    ax.set_xticks( range( len( dept_totals_high ) ) )
+    ax.tick_params( direction='in', top=False, right=False)
+    ax.set_xticklabels( [dept for dept,val in dept_totals_high] )
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
+    
+    
+#    plot = plt.subplot(111)
+#    plot.bar( range( len( dept_totals_high ) ),
+#              [val for dept,val in dept_totals_high],
+#              align='center',
+#              color=(1.,170./255.,60./255.),
+#              edgecolor=(1.,170./255.,60./255.)
+#    )
+#
+#    plot.set_xticklabels([dept for dept,val in dept_totals_high])
+#    #plt.setp(plot,
+#    #         xticks = range( len( dept_totals_high) ),
+#    #         xticklabels=[dept for dept,val in dept_totals_high]
+#    #)
+#    
+#    plot.set_ylabel('Signatures')
+#    plot.spines['right'].set_visible(False)
+#    plot.spines['top'].set_visible(False)
+#    #plot.spines['left'].set_position(('outward',10))
+#    plot.spines['bottom'].set_position(('outward',10))
+#    
+   
     return plot
