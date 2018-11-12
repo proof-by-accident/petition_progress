@@ -37,7 +37,8 @@ def plot_make():
     dept_totals = dict(Counter(depts))
     dept_totals = sorted([ (val, dept) for dept,val in dept_totals.items() ], reverse=True )
     cutoff = 10
-    dept_totals_high = [ (dept,val) for val,dept in dept_totals if val > cutoff ]
+    dept_totals_high = [ (dept,val) for val,dept in dept_totals[:10] ]
+    #dept_totals_high = [ (dept,val) for val,dept in dept_totals if val > cutoff ]
 
 
     plot = plt.figure()
@@ -56,27 +57,5 @@ def plot_make():
     ax.set_xticklabels( [dept for dept,val in dept_totals_high] )
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
-    
-    
-#    plot = plt.subplot(111)
-#    plot.bar( range( len( dept_totals_high ) ),
-#              [val for dept,val in dept_totals_high],
-#              align='center',
-#              color=(1.,170./255.,60./255.),
-#              edgecolor=(1.,170./255.,60./255.)
-#    )
-#
-#    plot.set_xticklabels([dept for dept,val in dept_totals_high])
-#    #plt.setp(plot,
-#    #         xticks = range( len( dept_totals_high) ),
-#    #         xticklabels=[dept for dept,val in dept_totals_high]
-#    #)
-#    
-#    plot.set_ylabel('Signatures')
-#    plot.spines['right'].set_visible(False)
-#    plot.spines['top'].set_visible(False)
-#    #plot.spines['left'].set_position(('outward',10))
-#    plot.spines['bottom'].set_position(('outward',10))
-#    
-   
-    return plot
+
+    return plot, dept_totals
