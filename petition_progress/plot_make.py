@@ -17,20 +17,16 @@ def plot_make_top_ten():
     credentials = ServiceAccountCredentials.from_json_keyfile_name(SECRETS_FILE, SCOPE)
     gc = gspread.authorize(credentials)
     
+
     # Pull Google Sheet and convert to Pandas DataFrame
+    # get dept responses
     try:
         responses = gc.open(SPREADSHEET).sheet1.get_all_records()
-        pickle_save = open('sheet_save.pickle','wb')
-        pickle.dump(responses, pickle_save)
-        pickle_save.close()
-        
+        depts = [ elem[u'Department or program (4-letter code preferred)'].strip() for elem in responses ]
+        memcache.add('departments', pickle.dumps(depts))
+
     except:
-        pickle_save = open('sheet_save.pickle','rb')
-        response = pickle.load(pickle_save)
-        pickle_save.close()
-    
-    # Get dept responses
-    depts = [ elem[u'Department or program (4-letter code preferred)'].strip() for elem in responses ]
+        depts = pickle.loads('departments')
     
     # Ditch all responses that aren't 4 letters long (or that aren't unicode strings for some reason)
     # simultaneously convert to a string
@@ -67,19 +63,14 @@ def plot_make_all():
     gc = gspread.authorize(credentials)
     
     # Pull Google Sheet and convert to Pandas DataFrame
-    # get petition responses
+    # get dept responses
     try:
         responses = gc.open(SPREADSHEET).sheet1.get_all_records()
         depts = [ elem[u'Department or program (4-letter code preferred)'].strip() for elem in responses ]
-        
-        pickle_save = open('sheet_save.pickle','wb')
-        pickle.dump(depts, pickle_save)
-        pickle_save.close()
-        
+        memcache.add('departments', pickle.dumps(depts))
+
     except:
-        pickle_save = open('sheet_save.pickle','rb')
-        depts = pickle.load(pickle_save)
-        pickle_save.close()
+        depts = pickle.loads('departments')
         
     # Ditch all responses that aren't 4 letters long (or that aren't unicode strings for some reason)
     # simultaneously convert to a string
