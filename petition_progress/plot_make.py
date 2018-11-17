@@ -26,7 +26,7 @@ def plot_make_top_ten():
         memcache.add('departments', pickle.dumps(depts))
 
     except:
-        depts = pickle.loads('departments')
+        depts = pickle.loads( memcache.get('departments') )
     
     # Ditch all responses that aren't 4 letters long (or that aren't unicode strings for some reason)
     # simultaneously convert to a string
@@ -70,7 +70,7 @@ def plot_make_all():
         memcache.add('departments', pickle.dumps(depts))
 
     except:
-        depts = pickle.loads('departments')
+        depts = pickle.loads( memcache.get('departments') )
         
     # Ditch all responses that aren't 4 letters long (or that aren't unicode strings for some reason)
     # simultaneously convert to a string
