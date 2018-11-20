@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from collections import Counter
 import pickle
 import numpy
+from google.appengine.api import memcache
 
 SCOPE = ['https://spreadsheets.google.com/feeds',
                   'https://www.googleapis.com/auth/drive']
@@ -24,10 +25,17 @@ def plot_make_top_ten():
         responses = gc.open(SPREADSHEET).sheet1.get_all_records()
         depts = [ elem[u'Department or program (4-letter code preferred)'].strip() for elem in responses ]
         memcache.add('departments', pickle.dumps(depts))
-
-    except:
-        depts = pickle.loads( memcache.get('departments') )
     
+    except:
+        depts_pickled = memcache.get('departments')
+        if depts_pickled:
+            depts = pickle.loads( depts_pickled )
+
+        else:
+            saves = open('depts.pickle','rb')
+            depts = pickle.load(saves)
+            saves.close()
+            
     # Ditch all responses that aren't 4 letters long (or that aren't unicode strings for some reason)
     # simultaneously convert to a string
     depts = [ str(d).upper() for d in filter( lambda s: (len(s) == 4) & (type(s) == unicode), depts ) ]
@@ -70,7 +78,15 @@ def plot_make_all():
         memcache.add('departments', pickle.dumps(depts))
 
     except:
-        depts = pickle.loads( memcache.get('departments') )
+        depts_pickled = memcache.get('departments')
+        if depts_pickled:
+            depts = pickle.loads( depts_pickled )
+
+        else:
+            saves = open('depts.pickle','rb')
+            depts = pickle.load(saves)
+            saves.close()
+
         
     # Ditch all responses that aren't 4 letters long (or that aren't unicode strings for some reason)
     # simultaneously convert to a string
