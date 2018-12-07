@@ -18,7 +18,7 @@ def plot_png():
         fig = plot_make_all()
 
     else:
-        fig = plot_make_top()    
+        fig = plot_make_top_ten()    
 
     output = io.BytesIO()
     output.seek(0)

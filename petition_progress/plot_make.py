@@ -59,10 +59,10 @@ def plot_make_top():
     ax.set_xticks( range( len( dept_totals_high ) ) )
     ax.set_xlim(left=-.5, right = len(dept_totals_high) )
     ax.tick_params( direction='in', top=False, right=False)
-    ax.set_xticklabels( [dept for dept,val in dept_totals_high] )
+    ax.set_xticklabels( [dept for dept,val in dept_totals_high], rotation=45, ha='right' )
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
-
+    
     return plot
 
 def plot_make_all():
