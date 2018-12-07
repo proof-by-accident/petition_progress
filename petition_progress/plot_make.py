@@ -13,7 +13,7 @@ SCOPE = ['https://spreadsheets.google.com/feeds',
 SECRETS_FILE = "secret_key.json"
 SPREADSHEET = "Graduate workers need a student fee waiver. (Responses)"
 
-def plot_make_top_ten():
+def plot_make_top():
     # Authenticate using the signed key
     credentials = ServiceAccountCredentials.from_json_keyfile_name(SECRETS_FILE, SCOPE)
     gc = gspread.authorize(credentials)
@@ -41,8 +41,8 @@ def plot_make_top_ten():
     depts = [ str(d).upper() for d in filter( lambda s: (len(s) == 4) & (type(s) == unicode), depts ) ]
     dept_totals = dict(Counter(depts))
     dept_totals = sorted([ (val, dept) for dept,val in dept_totals.items() ], reverse=True )
-    cutoff = 10
-    dept_totals_high = [ (dept,val) for val,dept in dept_totals[:10] ]
+    cutoff = 20
+    dept_totals_high = [ (dept,val) for val,dept in dept_totals[:cutoff] ]
     #dept_totals_high = [ (dept,val) for val,dept in dept_totals if val > cutoff ]
 
 
